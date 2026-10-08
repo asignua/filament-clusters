@@ -70,7 +70,15 @@ class Cluster extends Field implements HasEmbeddedView
      */
     public function columns(array|int|Closure|null $columns = 2): static
     {
-        if (is_int($columns)) {
+        if ($columns === null) {
+            // "auto": one column per visible child, which is what a cluster without `columns()` does.
+            $this->columns = null;
+
+            return $this;
+        }
+
+        // An integer (plain or returned by a closure) means "every screen"; Filament would map it to `lg` only.
+        if (is_int($columns) || $columns instanceof Closure) {
             $columns = ['default' => $columns];
         }
 
@@ -128,12 +136,25 @@ class Cluster extends Field implements HasEmbeddedView
         return null;
     }
 
+    /**
+     * No label unless one is set: Filament would otherwise derive "Cluster" from the internal name.
+     */
+    public function getDefaultLabel(): string
+    {
+        return '';
+    }
+
     public function isMarkedAsRequired(): bool
     {
         $explicit = $this->evaluate($this->isMarkedAsRequired);
 
         if ($explicit !== null) {
             return (bool) $explicit;
+        }
+
+        // `->required()` on the cluster adds no rule (the children own those) but forces the marker.
+        if ($this->isRequired()) {
+            return true;
         }
 
         foreach ($this->getChildFields() as $field) {
@@ -199,7 +220,14 @@ class Cluster extends Field implements HasEmbeddedView
                 continue;
             }
 
-            foreach ([...Arr::wrap($bag->get($path)), ...Arr::flatten($bag->get("{$path}.*"))] as $message) {
+            $all = [...Arr::wrap($bag->get($path)), ...Arr::flatten($bag->get("{$path}.*"))];
+
+            // Like stock Filament: the first message per field, unless the child asks for all of them.
+            if (!$field->shouldShowAllValidationMessages()) {
+                $all = array_slice($all, 0, 1);
+            }
+
+            foreach ($all as $message) {
                 $messages[] = (string) $message;
             }
         }
@@ -213,7 +241,7 @@ class Cluster extends Field implements HasEmbeddedView
             ->merge([
                 'id' => $this->getId(),
                 'role' => 'group',
-                'aria-labelledby' => (filled($this->getLabel()) && !$this->isLabelHidden() && filled($this->getId())) ? $this->getId().'-label' : null,
+                'aria-labelledby' => filled($this->getId()) ? $this->getId().'-label' : null,
                 'aria-invalid' => $this->hasValidationError() ? 'true' : null,
             ], escape: false)
             ->merge($this->getModeAttributes(), escape: false)
@@ -240,6 +268,65 @@ class Cluster extends Field implements HasEmbeddedView
         }
 
         return $schema;
+    }
+
+    /**
+     * Points the child control's `aria-describedby` at elements that exist: the cluster draws one error block and
+     * one helper text for everybody, so the child's own `-error` / helper ids are swapped for the cluster's.
+     */
+    public function describeChild(Field $child, string $html): string
+    {
+        $id = $this->getId();
+        $childId = (string) $child->getId();
+
+        if (blank($id) || blank($childId)) {
+            return $html;
+        }
+
+        $own = [$childId.'-error', $childId.'-helper-text'];
+        $extra = [];
+
+        if (filled($this->getHelperTextId())) {
+            $extra[] = $this->getHelperTextId();
+        }
+
+        // Only the child that failed points at the cluster's error block.
+        if ($child->hasValidationError()) {
+            $extra[] = $id.'-error';
+        }
+
+        $merge = static function (string $current) use ($own, $extra): string {
+            $tokens = array_filter(
+                preg_split('/\s+/', trim($current)) ?: [],
+                static fn (string $token): bool => $token !== '' && !in_array($token, $own, true),
+            );
+
+            return implode(' ', array_values(array_unique([...$tokens, ...$extra])));
+        };
+
+        $result = preg_replace_callback(
+            '/<(input|select|textarea|button)\b[^>]*>/i',
+            static function (array $match) use ($childId, $merge, $extra): string {
+                $tag = $match[0];
+
+                if (!str_contains($tag, ' id="'.$childId.'"')) {
+                    return $tag;
+                }
+
+                if (preg_match('/\saria-describedby="([^"]*)"/', $tag, $existing) === 1) {
+                    return str_replace($existing[0], ' aria-describedby="'.$merge(html_entity_decode($existing[1])).'"', $tag);
+                }
+
+                if ($extra === []) {
+                    return $tag;
+                }
+
+                return substr($tag, 0, -1).' aria-describedby="'.implode(' ', $extra).'">';
+            },
+            $html,
+        );
+
+        return $result ?? $html;
     }
 
     /**

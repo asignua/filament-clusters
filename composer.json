@@ -1,6 +1,6 @@
 {
     "name": "asignua/filament-clusters",
-    "description": "TODO: one-sentence description of Clusters for Filament.",
+    "description": "Group several Filament 5 fields into one input row with a shared label, joined borders and a shared focus ring.",
     "keywords": ["filament", "filament-plugin", "laravel"],
     "homepage": "https://github.com/asignua/filament-clusters",
     "support": {

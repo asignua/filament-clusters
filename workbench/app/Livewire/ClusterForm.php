@@ -42,7 +42,7 @@ class ClusterForm extends Component implements HasSchemas
 
                 Cluster::make([
                     Select::make('currency')->options(['EUR' => 'EUR', 'USD' => 'USD'])->native(false)->default('EUR'),
-                    TextInput::make('amount')->numeric()->minValue(1)->columnSpan(3),
+                    TextInput::make('amount')->numeric()->minValue(1)->columnSpan(['default' => 3]),
                 ])->label('Price')->columns(4),
 
                 Cluster::make([

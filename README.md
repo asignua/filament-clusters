@@ -8,7 +8,7 @@ draws them together and gathers their errors. A maintained Filament 5 successor 
 
 ## Screenshots
 
-TODO: add images to `art/` (cover.jpg first) and reference them here.
+Screenshots are added at release time.
 
 ## Requirements
 
