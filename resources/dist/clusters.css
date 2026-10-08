@@ -1,0 +1,136 @@
+/*
+ * Hand-written, no build step (resources/dist/clusters.css is a verbatim copy: cp it after editing). The
+ * panel theme does not scan plugin views, so nothing here relies on generated Tailwind utilities: only Filament's
+ * own CSS variables (--gray-*, --primary-*, --danger-*) with fallbacks. Everything is scoped under `.fi-cl`.
+ * Logical properties keep it RTL-safe; dark mode follows Filament's `.dark` class on <html>.
+ */
+
+.fi-cl {
+    --fi-cl-radius: 0.5rem;
+    --fi-cl-divider: var(--gray-200, #e5e7eb);
+    --fi-cl-ring: color-mix(in oklab, var(--gray-950, #030712) 10%, transparent);
+    --fi-cl-ring-focus: var(--primary-600, #2563eb);
+    --fi-cl-ring-invalid: var(--danger-600, #dc2626);
+
+    display: block;
+    border-radius: var(--fi-cl-radius);
+    background-color: var(--color-white, #fff);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 0 0 1px var(--fi-cl-ring);
+    transition: box-shadow 75ms ease;
+}
+
+.dark .fi-cl {
+    --fi-cl-divider: color-mix(in oklab, var(--color-white, #fff) 10%, transparent);
+    --fi-cl-ring: color-mix(in oklab, var(--color-white, #fff) 20%, transparent);
+    --fi-cl-ring-focus: var(--primary-500, #3b82f6);
+    --fi-cl-ring-invalid: var(--danger-500, #ef4444);
+
+    background-color: color-mix(in oklab, var(--color-white, #fff) 5%, transparent);
+}
+
+.fi-cl:focus-within:not(.fi-cl-disabled) {
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 0 0 2px var(--fi-cl-ring-focus);
+}
+
+.fi-cl.fi-cl-invalid {
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 0 0 1px var(--fi-cl-ring-invalid);
+}
+
+.fi-cl.fi-cl-invalid:focus-within:not(.fi-cl-disabled) {
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 0 0 2px var(--fi-cl-ring-invalid);
+}
+
+.fi-cl.fi-cl-disabled {
+    background-color: var(--gray-50, #f9fafb);
+}
+
+.dark .fi-cl.fi-cl-disabled {
+    background-color: transparent;
+}
+
+/* The inner schema grid: no gap, the dividers are drawn by the cells. */
+.fi-cl > .fi-sc {
+    gap: 0;
+}
+
+.fi-cl-cell {
+    min-width: 0;
+}
+
+/* The children draw no frame of their own: the cluster supplies it. !important only beats the panel's ring utilities. */
+.fi-cl .fi-input-wrp {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0;
+}
+
+/* Round the outer corners of the first and last cell, so hover / autofill backgrounds don't square them off. */
+.fi-cl > .fi-sc > .fi-grid-col:first-child .fi-input-wrp {
+    border-start-start-radius: var(--fi-cl-radius);
+}
+
+.fi-cl > .fi-sc > .fi-grid-col:last-child .fi-input-wrp {
+    border-end-end-radius: var(--fi-cl-radius);
+}
+
+/* Dividers --------------------------------------------------------------------------------------------- */
+
+.fi-cl > .fi-sc > .fi-grid-col {
+    --fi-cl-x: 0px;
+    --fi-cl-y: 0px;
+}
+
+.fi-cl > .fi-sc > .fi-grid-col:not(.fi-hidden) ~ .fi-grid-col:not(.fi-hidden) {
+    box-shadow: inset var(--fi-cl-x) var(--fi-cl-y) 0 0 var(--fi-cl-divider);
+}
+
+/* row: side by side; col: stacked; grid: several rows (a hairline on both sides of every later cell). */
+.fi-cl[data-cl-default='row'] > .fi-sc > .fi-grid-col {
+    --fi-cl-x: 1px;
+    --fi-cl-y: 0px;
+}
+
+.fi-cl[data-cl-default='col'] > .fi-sc > .fi-grid-col {
+    --fi-cl-x: 0px;
+    --fi-cl-y: 1px;
+}
+
+.fi-cl[data-cl-default='grid'] > .fi-sc > .fi-grid-col {
+    --fi-cl-x: 1px;
+    --fi-cl-y: 1px;
+}
+
+@media (min-width: 40rem) {
+    .fi-cl[data-cl-sm='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
+    .fi-cl[data-cl-sm='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
+    .fi-cl[data-cl-sm='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+}
+
+@media (min-width: 48rem) {
+    .fi-cl[data-cl-md='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
+    .fi-cl[data-cl-md='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
+    .fi-cl[data-cl-md='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+}
+
+@media (min-width: 64rem) {
+    .fi-cl[data-cl-lg='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
+    .fi-cl[data-cl-lg='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
+    .fi-cl[data-cl-lg='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+}
+
+@media (min-width: 80rem) {
+    .fi-cl[data-cl-xl='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
+    .fi-cl[data-cl-xl='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
+    .fi-cl[data-cl-xl='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+}
+
+@media (min-width: 96rem) {
+    .fi-cl[data-cl-2xl='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
+    .fi-cl[data-cl-2xl='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
+    .fi-cl[data-cl-2xl='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+}
+
+/* Native inputs that sit directly in a cell (a bare <select> is rare, but cheap to keep readable). */
+.fi-cl .fi-input-wrp-content-ctn {
+    min-width: 0;
+}

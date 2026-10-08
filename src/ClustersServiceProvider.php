@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Asignua\FilamentClusters;
 
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class ClustersServiceProvider extends PackageServiceProvider
 {
+    public const string PACKAGE = 'asignua/filament-clusters';
+
+    public const string STYLESHEET = 'filament-clusters';
+
     public static string $name = 'filament-clusters';
 
     public function configurePackage(Package $package): void
@@ -18,8 +24,12 @@ class ClustersServiceProvider extends PackageServiceProvider
         $package->name(static::$name)
             ->hasTranslations()
             ->hasViews();
+    }
 
-        // Add a config file only when the plugin really has options: create config/filament-clusters.php and
-        // chain `->hasConfigFile()` here (publish tag `filament-clusters-config`). Prefer fluent setters on the Plugin.
+    public function packageBooted(): void
+    {
+        FilamentAsset::register([
+            Css::make(self::STYLESHEET, __DIR__.'/../resources/dist/clusters.css'),
+        ], self::PACKAGE);
     }
 }
