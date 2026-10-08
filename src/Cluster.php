@@ -305,7 +305,7 @@ class Cluster extends Field implements HasEmbeddedView
         };
 
         $result = preg_replace_callback(
-            '/<(input|select|textarea|button)\b[^>]*>/i',
+            '/<(?:input|select|textarea|button)\b(?:[^>"\']|"[^"]*"|\'[^\']*\')*>/i',
             static function (array $match) use ($childId, $merge, $extra): string {
                 $tag = $match[0];
 
