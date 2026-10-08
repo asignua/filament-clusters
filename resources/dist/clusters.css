@@ -1,3 +1,6 @@
+/* Pin Tailwind v4 layer order: if this file loads before the panel CSS, a bare `@layer components` would otherwise rank below base (preflight) and unstyle Filament itself. */
+@layer theme, base, components, utilities;
+
 /*
  * Hand-written, no build step (resources/dist/clusters.css is a verbatim copy: cp it after editing). The
  * panel theme does not scan plugin views, so nothing here relies on generated Tailwind utilities: only Filament's
