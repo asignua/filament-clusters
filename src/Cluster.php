@@ -29,13 +29,15 @@ class Cluster extends Field implements HasEmbeddedView
 
     protected ?string $stackBelow = null;
 
+    protected static int $unnamedCounter = 0;
+
     /**
      * @param array<Component>|Closure|string|null $schema the child components; a string is the cluster's
      *                                                     internal name (rarely needed)
      */
     public static function make(string|array|Closure|null $schema = null): static
     {
-        $name = is_string($schema) ? $schema : static::getDefaultName();
+        $name = is_string($schema) ? $schema : static::generateName(is_array($schema) ? $schema : []);
 
         $static = parent::make($name);
 
@@ -49,6 +51,33 @@ class Cluster extends Field implements HasEmbeddedView
     public static function getDefaultName(): ?string
     {
         return 'cluster';
+    }
+
+    /**
+     * An unnamed cluster must not share the fixed name `cluster` with its siblings (keys, ids and the order of
+     * the fields would collide). Like Filament's layout components it gets a generated one, derived from the
+     * names of its direct child fields: the same schema code gives the same name on every Livewire request
+     * (the schema is rebuilt each time), and two clusters differ as soon as their fields do, which they must
+     * anyway, because a state path belongs to one field. Children that are not plain fields (layout wrappers,
+     * a closure) give no signature; those clusters fall back to a per-process counter.
+     *
+     * @param array<mixed> $schema
+     */
+    protected static function generateName(array $schema): string
+    {
+        $names = [];
+
+        foreach ($schema as $component) {
+            if ($component instanceof Field && filled($name = $component->getName())) {
+                $names[] = $name;
+            }
+        }
+
+        if ($names === []) {
+            return static::getDefaultName().'_'.(++static::$unnamedCounter);
+        }
+
+        return static::getDefaultName().'_'.substr(hash('xxh3', implode("\0", $names)), 0, 8);
     }
 
     protected function setUp(): void

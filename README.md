@@ -50,6 +50,11 @@ Cluster::make([
 
 The children are saved as `first_name` / `last_name`, exactly as without the cluster.
 
+### Several clusters in one form
+
+`Cluster::make([...])` needs no name: each unnamed cluster gets a generated one from its child field names, stable between
+Livewire requests, so any number of them can sit in one schema. A cluster owns no state, so the name only matters for DOM ids.
+
 ### Columns and stacking
 
 ```php
@@ -59,7 +64,7 @@ Cluster::make([...])->stackBelow('md');                        // one per line b
 Cluster::make([...])->columns(1);                              // a vertical cluster
 ```
 
-Per-child width: `->columnSpan(['default' => 3])` (a bare `columnSpan(3)` is Filament's `lg`-only span).
+Per-child width: `->columnSpan(['default' => 3])` (a bare `columnSpan(3)` is Filament's `lg`-only span). Likewise `->columns(3)` is `['default' => 3]`, not Filament's `lg`-only form.
 
 ### Recipes
 
