@@ -63,8 +63,8 @@ class ClusterExamples extends Page
                 ])->label('Address line')->columns(['default' => 1, 'sm' => 5]),
 
                 Cluster::make([
-                    DatePicker::make('from'),
-                    DatePicker::make('to')->afterOrEqual('from'),
+                    DatePicker::make('from')->label('Start date'),
+                    DatePicker::make('to')->label('End date')->afterOrEqual('from'),
                 ])->label('Period'),
 
                 Cluster::make([

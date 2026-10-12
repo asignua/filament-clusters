@@ -124,6 +124,52 @@ class ClusterRenderTest extends TestCase
         $this->assertStringNotContainsString('--cols-lg', $html);
     }
 
+    public function test_a_multi_row_cluster_marks_the_cells_that_need_no_hairline(): void
+    {
+        $html = $this->render([
+            Cluster::make([TextInput::make('a'), TextInput::make('b'), TextInput::make('c'), TextInput::make('d')])->label('Grid')->columns(2),
+        ]);
+
+        // a: row start + first row; b: first row; c: row start; d: neither.
+        $this->assertSame(2, substr_count($html, 'data-cl-default-l'));
+        $this->assertSame(2, substr_count($html, 'data-cl-default-t'));
+    }
+
+    public function test_spans_move_the_row_starts(): void
+    {
+        $html = $this->render([
+            Cluster::make([
+                TextInput::make('a')->columnSpan(['default' => 2]),
+                TextInput::make('b'),
+                TextInput::make('c')->columnSpanFull(),
+                TextInput::make('d'),
+            ])->label('Spans')->columns(3),
+        ]);
+
+        // a (cols 1-2) starts row 0; b sits on row 0 but does not start it; c and d start rows 1 and 2.
+        $this->assertSame(3, substr_count($html, 'data-cl-default-l'));
+        $this->assertSame(2, substr_count($html, 'data-cl-default-t'));
+    }
+
+    public function test_a_row_layout_gets_no_edge_marks(): void
+    {
+        $html = $this->render([Cluster::make([TextInput::make('a'), TextInput::make('b')])->label('Row')]);
+
+        $this->assertStringNotContainsString('data-cl-default-l', $html);
+    }
+
+    public function test_the_stylesheet_ships_the_edge_rules(): void
+    {
+        $css = (string) file_get_contents(__DIR__.'/../../resources/dist/clusters.css');
+
+        foreach (['default', 'sm', 'md', 'lg', 'xl', '2xl'] as $bp) {
+            $this->assertStringContainsString("[data-cl-{$bp}-l]", $css);
+            $this->assertStringContainsString("[data-cl-{$bp}-t]", $css);
+        }
+
+        $this->assertSame(file_get_contents(__DIR__.'/../../resources/css/clusters.css'), $css, 'dist is a verbatim copy');
+    }
+
     public function test_children_can_span_columns(): void
     {
         $html = $this->render([

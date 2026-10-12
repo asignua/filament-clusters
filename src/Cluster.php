@@ -376,6 +376,88 @@ class Cluster extends Field implements HasEmbeddedView
     }
 
     /**
+     * Attributes for one child cell. In a multi-row layout (`grid`) the stylesheet draws a hairline above and to the
+     * left of every cell except those on the first row / in the first column: only the cluster can tell which those
+     * are, because it knows the columns and the spans of its children. The cell gets `data-cl-{breakpoint}-l` when it
+     * starts a row and `data-cl-{breakpoint}-t` when it sits on the first row, for each breakpoint in `grid` mode.
+     * Children that are not direct components of the cluster's schema (wrapped in a layout) get none.
+     *
+     * @return array<string, string>
+     */
+    public function getCellEdgeAttributes(Component $child): array
+    {
+        $components = array_values($this->getChildSchema()?->getComponents() ?? []);
+        $columns = $this->getAllColumns();
+        $count = count($components);
+        $attributes = [];
+
+        foreach (self::BREAKPOINTS as $breakpoint) {
+            $cols = $columns[$breakpoint] ?? null;
+
+            if ($cols === null || $cols <= 1 || $cols >= $count) {
+                continue;
+            }
+
+            $row = 0;
+            $column = 0;
+
+            foreach ($components as $component) {
+                $span = $this->spanAt($component, $breakpoint, $cols);
+
+                if ($column > 0 && $column + $span > $cols) {
+                    $row++;
+                    $column = 0;
+                }
+
+                if ($component === $child) {
+                    if ($column === 0) {
+                        $attributes["data-cl-{$breakpoint}-l"] = '';
+                    }
+
+                    if ($row === 0) {
+                        $attributes["data-cl-{$breakpoint}-t"] = '';
+                    }
+
+                    break;
+                }
+
+                $column += $span;
+
+                if ($column >= $cols) {
+                    $row++;
+                    $column = 0;
+                }
+            }
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * The column span a child has at a breakpoint: the last one set at or below it (spans cascade up, like columns),
+     * `full` meaning every column, never wider than the grid.
+     */
+    private function spanAt(Component $component, string $breakpoint, int $cols): int
+    {
+        $spans = $component->getColumnSpan();
+        $span = 1;
+
+        foreach (self::BREAKPOINTS as $name) {
+            $value = is_array($spans) ? ($spans[$name] ?? null) : null;
+
+            if ($value !== null) {
+                $span = $value === 'full' ? $cols : max(1, (int) $value);
+            }
+
+            if ($name === $breakpoint) {
+                break;
+            }
+        }
+
+        return min($span, $cols);
+    }
+
+    /**
      * Tells the stylesheet, per breakpoint, how the children are laid out (`row`, `col` or `grid`), so it can draw
      * the dividers on the right side. Only breakpoints the columns set explicitly are emitted; the others inherit.
      *

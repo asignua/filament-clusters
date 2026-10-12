@@ -11,7 +11,7 @@
         : ($childLabel ?: $clusterLabel);
 @endphp
 
-<div data-field-wrapper {{ $attributes->merge($field->getExtraFieldWrapperAttributes() ?? [], escape: false)->class(['fi-cl-cell']) }}>
+<div data-field-wrapper {{ $attributes->merge($field->getExtraFieldWrapperAttributes() ?? [], escape: false)->merge(($cluster instanceof Cluster) ? $cluster->getCellEdgeAttributes($field) : [], escape: false)->class(['fi-cl-cell']) }}>
     @if (filled($accessibleLabel))
         <label for="{{ $field->getId() }}" class="fi-sr-only">{{ $accessibleLabel }}</label>
     @endif

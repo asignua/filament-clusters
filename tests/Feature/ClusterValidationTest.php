@@ -63,6 +63,21 @@ class ClusterValidationTest extends TestCase
         $this->assertSame(2, substr_count($html, 'class="fi-fo-field-wrp-error-message"'));
     }
 
+    public function test_messages_name_the_field_by_its_label_and_the_other_field_in_a_rule_too(): void
+    {
+        $html = $this->form([
+            Cluster::make([
+                \Filament\Forms\Components\DatePicker::make('from')->label('Start date'),
+                \Filament\Forms\Components\DatePicker::make('to')->label('End date')->afterOrEqual('from'),
+            ])->label('Period'),
+        ])
+            ->fillForm(['from' => '2026-10-31', 'to' => '2026-10-01'])
+            ->call('save')
+            ->html();
+
+        $this->assertStringContainsString('The end date field must be a date after or equal to start date.', $html);
+    }
+
     public function test_a_single_error_is_a_plain_message(): void
     {
         $html = $this->form([$this->nameCluster()])

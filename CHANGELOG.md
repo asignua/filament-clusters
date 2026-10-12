@@ -4,6 +4,8 @@ All notable changes to `asignua/filament-clusters` are documented here.
 
 ## 1.0.1 - Unreleased
 
+- Fix: in a multi-row cluster (`columns(2)` with four fields, spans included) the cells on the first row no longer get a hairline along their top edge and the cells starting a row none on their left.
+- Docs: demo fields have explicit labels, so a server-side rule message reads «The end date field must be a date after or equal to start date.»
 - Docs: screenshots, cover and a workbench demo.
 
 ## 1.0.0 - Unreleased

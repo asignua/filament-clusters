@@ -119,34 +119,52 @@
         --fi-cl-y: 1px;
     }
 
+    /*
+     * Grid: no hairline on the left of a cell that starts a row, none above a cell on the first row (the cluster marks
+     * the cell inside the grid column, see Cluster::getCellEdgeAttributes(), hence :has()). :where() keeps the specificity equal to the mode rules, so the rules
+     * of a larger breakpoint, which come later, still win.
+     */
+    .fi-cl[data-cl-default='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-default-l])) { --fi-cl-x: 0px; }
+    .fi-cl[data-cl-default='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-default-t])) { --fi-cl-y: 0px; }
+
     @media (min-width: 40rem) {
         .fi-cl[data-cl-sm='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
         .fi-cl[data-cl-sm='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
         .fi-cl[data-cl-sm='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+        .fi-cl[data-cl-sm='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-sm-l])) { --fi-cl-x: 0px; }
+        .fi-cl[data-cl-sm='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-sm-t])) { --fi-cl-y: 0px; }
     }
 
     @media (min-width: 48rem) {
         .fi-cl[data-cl-md='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
         .fi-cl[data-cl-md='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
         .fi-cl[data-cl-md='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+        .fi-cl[data-cl-md='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-md-l])) { --fi-cl-x: 0px; }
+        .fi-cl[data-cl-md='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-md-t])) { --fi-cl-y: 0px; }
     }
 
     @media (min-width: 64rem) {
         .fi-cl[data-cl-lg='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
         .fi-cl[data-cl-lg='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
         .fi-cl[data-cl-lg='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+        .fi-cl[data-cl-lg='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-lg-l])) { --fi-cl-x: 0px; }
+        .fi-cl[data-cl-lg='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-lg-t])) { --fi-cl-y: 0px; }
     }
 
     @media (min-width: 80rem) {
         .fi-cl[data-cl-xl='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
         .fi-cl[data-cl-xl='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
         .fi-cl[data-cl-xl='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+        .fi-cl[data-cl-xl='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-xl-l])) { --fi-cl-x: 0px; }
+        .fi-cl[data-cl-xl='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-xl-t])) { --fi-cl-y: 0px; }
     }
 
     @media (min-width: 96rem) {
         .fi-cl[data-cl-2xl='row'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 0px; }
         .fi-cl[data-cl-2xl='col'] > .fi-sc > .fi-grid-col { --fi-cl-x: 0px; --fi-cl-y: 1px; }
         .fi-cl[data-cl-2xl='grid'] > .fi-sc > .fi-grid-col { --fi-cl-x: 1px; --fi-cl-y: 1px; }
+        .fi-cl[data-cl-2xl='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-2xl-l])) { --fi-cl-x: 0px; }
+        .fi-cl[data-cl-2xl='grid'] > .fi-sc > .fi-grid-col:where(:has(.fi-cl-cell[data-cl-2xl-t])) { --fi-cl-y: 0px; }
     }
 
     /* Native inputs that sit directly in a cell (a bare <select> is rare, but cheap to keep readable). */
