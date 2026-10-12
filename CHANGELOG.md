@@ -2,6 +2,10 @@
 
 All notable changes to `asignua/filament-clusters` are documented here.
 
+## 1.0.1 - Unreleased
+
+- Docs: screenshots, cover and a workbench demo.
+
 ## 1.0.0 - Unreleased
 
 - Fix: `Cluster::make([...])` without a name no longer gets the fixed name `cluster`; the name is generated from the child field names (stable across requests), so several unnamed clusters in one schema do not collide. Pass a string to `make()` to choose your own.

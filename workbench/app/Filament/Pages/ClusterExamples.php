@@ -37,7 +37,14 @@ class ClusterExamples extends Page
 
     public function mount(): void
     {
-        $this->form->fill();
+        $this->form->fill([
+            'first_name' => 'Olena', 'last_name' => 'Kovalenko',
+            'street' => 'Shevchenka Avenue', 'house' => '12', 'apartment' => '48',
+            'from' => '2026-10-01', 'to' => '2026-10-31',
+            'currency' => 'EUR', 'amount' => 1250,
+            'weight' => 18.5, 'handle' => 'acme_supply',
+            'street_2' => 'Zelena', 'house_2' => '7', 'zip' => '79000', 'city' => 'Lviv',
+        ]);
     }
 
     public function form(Schema $schema): Schema
@@ -47,7 +54,7 @@ class ClusterExamples extends Page
                 Cluster::make([
                     TextInput::make('first_name')->label('First name')->required(),
                     TextInput::make('last_name')->label('Last name')->required(),
-                ])->label('Name (both required: submit empty to see errors)')->helperText('As in the passport')->hint('Legal name'),
+                ])->label('Name')->helperText('As in the passport')->hint('Legal name'),
 
                 Cluster::make([
                     TextInput::make('street')->columnSpan(['default' => 1, 'sm' => 3]),
@@ -75,7 +82,7 @@ class ClusterExamples extends Page
                     TextInput::make('house_2'),
                     TextInput::make('zip'),
                     TextInput::make('city'),
-                ])->label('Two rows (columns(2))')->columns(2),
+                ])->label('Billing address')->columns(2),
             ])
             ->statePath('data');
     }
