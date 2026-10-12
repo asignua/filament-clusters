@@ -402,7 +402,8 @@ class Cluster extends Field implements HasEmbeddedView
             $column = 0;
 
             foreach ($components as $component) {
-                $span = $this->spanAt($component, $breakpoint, $cols);
+                // An action placed in the cluster takes one cell, like any component without a span.
+                $span = $component instanceof Component ? $this->spanAt($component, $breakpoint, $cols) : 1;
 
                 if ($column > 0 && $column + $span > $cols) {
                     $row++;
