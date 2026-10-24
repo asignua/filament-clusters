@@ -1,5 +1,7 @@
 # Filament Clusters
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
+
 <img class="filament-hidden" src="https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.1/art/cover.jpg" alt="Filament Clusters">
 
 [![Tests](https://img.shields.io/github/actions/workflow/status/asignua/filament-clusters/tests.yml?branch=main&label=tests)](https://github.com/asignua/filament-clusters/actions/workflows/tests.yml)
