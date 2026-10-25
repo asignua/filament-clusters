@@ -2,6 +2,11 @@
 
 All notable changes to `asignua/filament-clusters` are documented here.
 
+## 1.0.2 - 2026-10-25
+
+- Screenshots and the cover carry the «made in asign» mark; README shows the Stand With Ukraine badge.
+- Dependency updates (CI actions, dev tooling).
+
 ## 1.0.1 - 2026-10-12
 
 - Fix: in a multi-row cluster (`columns(2)` with four fields, spans included) the cells on the first row no longer get a hairline along their top edge and the cells starting a row none on their left.

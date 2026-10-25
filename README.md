@@ -2,7 +2,7 @@
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
-<img class="filament-hidden" src="https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.1/art/cover.jpg" alt="Filament Clusters">
+<img class="filament-hidden" src="https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.2/art/cover.jpg" alt="Filament Clusters">
 
 [![Tests](https://img.shields.io/github/actions/workflow/status/asignua/filament-clusters/tests.yml?branch=main&label=tests)](https://github.com/asignua/filament-clusters/actions/workflows/tests.yml)
 
@@ -14,15 +14,15 @@ draws them together and gathers their errors. A maintained Filament 5 successor 
 
 Name, address, period, money plus currency, prefix and suffix and a two-row cluster: one label and one bordered control each:
 
-![A form with clustered fields: name, address line, period, price, prefix and suffix, billing address](https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.1/art/form.jpg)
+![A form with clustered fields: name, address line, period, price, prefix and suffix, billing address](https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.2/art/form.jpg)
 
 Every child keeps its own validation; the cluster gathers the errors under one label:
 
-![A validation error under a Period cluster](https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.1/art/validation.jpg)
+![A validation error under a Period cluster](https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.2/art/validation.jpg)
 
 Dark mode:
 
-![The cluster form in dark mode](https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.1/art/form-dark.jpg)
+![The cluster form in dark mode](https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.2/art/form-dark.jpg)
 
 ## Requirements
 
