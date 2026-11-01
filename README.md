@@ -142,6 +142,15 @@ vendor/bin/pint --test
 
 See [CHANGELOG.md](CHANGELOG.md).
 
+## More plugins by asign
+
+- [Relation Manager Tabs](https://filamentphp.com/plugins/asign-relation-manager-tabs) — relation managers inside the form tabs
+- [Row Layout](https://filamentphp.com/plugins/asign-row-layout) — column manager for tables
+- [Themes](https://filamentphp.com/plugins/asign-themes) — per-user and per-panel colour themes
+- [Record Lock](https://filamentphp.com/plugins/asign-record-lock) — stop two people editing the same record
+
+All plugins: <https://filamentphp.com/plugins?q=asign>
+
 ## License
 
 The MIT License (MIT). See [LICENSE.md](LICENSE.md).
