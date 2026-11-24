@@ -1,10 +1,13 @@
 # Filament Clusters
 
 [![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/asignua/filament-clusters.svg?style=flat-square)](https://packagist.org/packages/asignua/filament-clusters)
+[![Tests](https://img.shields.io/github/actions/workflow/status/asignua/filament-clusters/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/asignua/filament-clusters/actions/workflows/tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/asignua/filament-clusters.svg?style=flat-square)](https://packagist.org/packages/asignua/filament-clusters)
+[![License](https://img.shields.io/packagist/l/asignua/filament-clusters.svg?style=flat-square)](https://github.com/asignua/filament-clusters/blob/main/LICENSE.md)
+[![Plumb score](https://plumbphp.dev/badges/asignua/filament-clusters/composite.svg)](https://plumbphp.dev/asignua/filament-clusters)
 
 <img class="filament-hidden" src="https://raw.githubusercontent.com/asignua/filament-clusters/v1.0.2/art/cover.jpg" alt="Filament Clusters">
-
-[![Tests](https://img.shields.io/github/actions/workflow/status/asignua/filament-clusters/tests.yml?branch=main&label=tests)](https://github.com/asignua/filament-clusters/actions/workflows/tests.yml)
 
 Put several fields into **one input row** in Filament 5: one label, one bordered control, joined borders and a shared focus ring.
 Address lines, name parts, ranges, money plus currency. Every child keeps its own state path and validation; the cluster only
@@ -150,6 +153,8 @@ See [CHANGELOG.md](CHANGELOG.md).
 - [Record Lock](https://filamentphp.com/plugins/asign-record-lock) — stop two people editing the same record
 
 All plugins: <https://filamentphp.com/plugins?q=asign>
+
+Catalogue of free and commercial plugins: <https://asign.tech/en/plugins>
 
 ## License
 
